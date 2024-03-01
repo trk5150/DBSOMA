@@ -7,7 +7,8 @@ import java.util.ArrayList;
 /* To do: 
  * 	pass the radius and minPts.
  * 	change the structure cutoff based on quality and structure metrics of false positive first
- * 		The above will allow me to more quickly parameterize the 
+ * 		The above will allow me to more quickly parameterize without needing to worry about input file sizes
+ * 		calculate false positive rate for generic file sizes 200, 250, 500, 750, 1000... etc. Then for any file, whichever size is closest, use a cutoff of 1.5x that false positive rate
  * */
 
 public class BigScan 
