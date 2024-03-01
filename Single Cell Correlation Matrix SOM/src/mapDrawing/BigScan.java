@@ -9,7 +9,15 @@ import java.util.ArrayList;
  * 	change the structure cutoff based on quality and structure metrics of false positive first
  * 		The above will allow me to more quickly parameterize without needing to worry about input file sizes
  * 		calculate false positive rate for generic file sizes 200, 250, 500, 750, 1000... etc. Then for any file, whichever size is closest, use a cutoff of 1.5x that false positive rate
+ * 
+ * 	Change so that the state by which files are saved is not just first alphabetical
  * */
+
+/**
+ * This class takes 4 directories as arguments: 0: SOM files, 1: state files, 2: projection files, 3:output directory address
+ * 
+ * for each SOM file, it runs an instance of SetScan with all state files and projection files, which saves the output in an output sub-directory named after the SOM file
+ */
 
 public class BigScan 
 {
