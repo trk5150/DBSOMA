@@ -69,7 +69,7 @@ public class MultiThreadTraining
 						
 						for(int k = 0; k<dpSize; k++)									//Cycles through the data points assigned to each Node in each shell
 						{
-							if(assignments[k][j])										//if currently give node has given data point assigned to it, calculate
+							if(assignments[k][j])										//if given node has given data point assigned to it, calculate:
 							{
 								for(int l = 0; l<dpMatrix[k].length; l++)
 								{

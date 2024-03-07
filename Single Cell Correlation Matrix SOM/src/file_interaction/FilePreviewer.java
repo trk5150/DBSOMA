@@ -95,7 +95,7 @@ public class FilePreviewer
 //	        }
 //	    	System.out.println(lineNum-2); //lineNum -2 because first line is matrix information, last line is blank
 /***	    	reads first x lines*/
-	    	for(int i1 =0; i1<=1; i1++)
+	    	for(int i1 =0; i1<=0; i1++)
 	    	{
 	    		line = br.readLine();
 	    		System.out.println(line);

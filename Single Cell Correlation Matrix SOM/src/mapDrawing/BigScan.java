@@ -26,7 +26,7 @@ public class BigScan
 	public BigScan(String soms, String projections, String out, String states)
 	{
 		outDir = out;
-		ArrayList<File> somFiles = prepDirectory(soms);
+		ArrayList<File> somFiles = prepDirectory(soms); 
 		ArrayList<File> stateFiles = prepDirectory(states);
 //		System.out.println("state number " + stateFiles.size());
 		String[] stateAddresses =new String[stateFiles.size()];
