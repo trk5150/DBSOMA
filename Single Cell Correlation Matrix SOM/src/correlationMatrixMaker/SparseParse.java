@@ -9,11 +9,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 //reads in the common format for sparse matrices, which is a file with gene names, then a second file with coordinates+count (often comes along with a file of cell identifiers, which we ignore)
-//matrix file is [gene][]
+//matrix file is [gene][cell][count]
+
+/**
+ * To do:
+ * 	ensure the genes file saves in agreement with the matrix
+ * 		Do things known to correlate appear that way
+ * */
+
 public class SparseParse 
 {
+	public int roundToInt = 10000;
 	public double threshold;
 	public boolean[] inclusions;
 	public int genes, cells, totalCount;
@@ -55,9 +67,11 @@ public class SparseParse
 	    	cells = Integer.parseInt(lines[1]);
 	    	totalCount = Integer.parseInt(lines[2]);
 	    	System.out.println("cells: "+cells);
+	    	System.out.println("Genes in file header: "+genes);
+	    	System.out.println("Total Counts in file: "+totalCount);
 	    	
     		line = br.readLine();
-	    	while(br.readLine() != null)
+	    	while(line != null)
 	    	{
 	    		lines = line.split(" ");
 	    		int g = Integer.parseInt(lines[0]);
@@ -101,12 +115,14 @@ public class SparseParse
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		int count = 0;
 	    try 
 	    {
-    		
      		line = br.readLine();
- 	    	while(br.readLine() != null)
+ 	    	while(line != null)
  	    	{
+ 	    		count++;
  	    		names.add(line.trim());
  	    		line = br.readLine();
  	    	}
@@ -125,12 +141,35 @@ public class SparseParse
  				}
  			}
 	 	}
-	    System.out.println("Genes file lines: " + names.size());
+	    System.out.println("Genes file lines: " + names.size()+ " "  + count);
  	    return names;
+	}
+	public double roundDouble(double d)
+	{
+		double rounded = d*roundToInt;
+		int ri = (int)rounded;
+		rounded = ((double)ri)/roundToInt;
+		return rounded;
 	}
 	public double[][] correlate(ArrayList<int[]> coords, ArrayList<int[]> counts, int[] totals)
 	{
 		double[][] cors = new double[coords.size()][coords.size()];
+		double[] bars = new double[totals.length];
+		
+		//calc avg for each gene
+		for(int i = 0; i< bars.length; i++)
+			bars[i] = (double)totals[i]/(double)cells;
+		
+		
+		
+		double[] stdevs = new double[totals.length];
+		for(int i = 0; i< stdevs.length; i++)
+		{
+			stdevs[i] = stdev(coords.get(i), counts.get(i), bars[i]);
+//			System.out.println(stdevs[i]);
+		}
+		System.out.println("stdevs calculated");
+		
 		for(int i = 0; i<coords.size(); i++)
 		{
 			for (int j = i; j<coords.size(); j++)
@@ -139,20 +178,62 @@ public class SparseParse
 					cors[i][j] = 1;
 				else
 				{
-					int aTotal = totals[i];
-					int bTotal = totals[j];
 					int[] aCoords = coords.get(i); 
 					int[] bCoords = coords.get(j);
 					int[] aMags = counts.get(i);
 					int[] bMags = counts.get(j);
-					double pears = pearson(aCoords, bCoords, aMags, bMags, aTotal, bTotal);
-					cors[i][j] = pears;
-					cors[j][i] = pears;
+					double pears = pearsonFast(aCoords, bCoords, aMags, bMags, bars[i], bars[j], stdevs[i], stdevs[j]);
+					double r = roundDouble(pears);
+					cors[i][j] = r;
+					cors[j][i] = r;
 				}
 			}
-			System.out.println("count: " + i);
+			if(i%250 == 0)
+				System.out.println("count: " + i);
 		}
+		
+		//Old, slower code
+//		for(int i = 0; i<coords.size(); i++)
+//		{
+//			for (int j = i; j<coords.size(); j++)
+//			{
+//				if(i == j)
+//					cors[i][j] = 1;
+//				else
+//				{
+//					int aTotal = totals[i];
+//					int bTotal = totals[j];
+//					int[] aCoords = coords.get(i); 
+//					int[] bCoords = coords.get(j);
+//					int[] aMags = counts.get(i);
+//					int[] bMags = counts.get(j);
+//					double pears = pearson(aCoords, bCoords, aMags, bMags, aTotal, bTotal);
+//					cors[i][j] = pears;
+//					cors[j][i] = pears;
+//				}
+//			}
+//			System.out.println("count: " + i);
+//		}
 		return cors;
+	}
+	
+	public double stdev(int[] xCoords, int[] xCounts, double xBar)
+	{
+		double n = cells;
+		
+		
+		double sX = 0;
+		
+		sX = (n-xCoords.length)*(xBar*xBar); //equal to the sum of (0-values minus average)^2
+		for(int i = 0; i < xCoords.length; i++)
+		{
+			sX+= ((xCounts[i]-xBar)*(xCounts[i]-xBar));
+		}
+//		System.out.println(sX);
+		sX /= (n-1);
+		sX = Math.sqrt(sX);
+		
+		return sX;
 	}
 	public double pearson(int[] xCoords, int[] yCoords, int[] xCounts, int[] yCounts, int xTotal, int yTotal)
 	{
@@ -204,12 +285,41 @@ public class SparseParse
 //		System.out.println(r);
 		return r;
 	}
-	
+	public double pearsonFast(int[] xCoords, int[] yCoords, int[] xCounts, int[] yCounts, double xBars, double yBars, double sX, double sY)
+	{
+		double r = 0;
+		
+		double n = cells;
+		double num = 0;
+
+		int lastJ = 0;
+    	for(int i = 0 ; i < xCoords.length; i++)
+		{
+			int compare = xCoords[i];
+			for(int j = lastJ; j < yCoords.length; j++)
+			{
+				if(yCoords[j] == compare)
+				{
+					lastJ = j; //coordinates are listing small to large, so next search can start from the previous find
+					num += xCounts[i] * yCounts[j];
+					break; //the above boolean operation can only ever occur once per inner loop, break if found
+				}
+				if(yCoords[j]> compare)
+					break; //if yCoords[j] has already overshot xCoords[i], no reason to increment upwards as values will only increase
+			}
+		}
+		num -= n*xBars*yBars;
+		double denom = (n-1)*sX*sY;
+		r = num/denom;
+//		System.out.println(r);
+		return r;
+	}
 	public void writeFiles(double[][] corMatrix, ArrayList<String> genio)
 	{		
 		BufferedWriter b;
 		File f = new File(matFile);
 		String s = f.getParent();
+		s = s +"\\";
 		String corFilename = s+"_Correlations.txt";
 		String geneFilename = s+"_Genes.txt";
 		//Correlations file
@@ -223,6 +333,7 @@ public class SparseParse
 
 			for(int i = 0; i<corMatrix.length; i++)
 			{
+				printer.print("\n");
 				for(int j = 0; j<corMatrix[i].length; j++)
 				{
 					if(Double.isNaN(corMatrix[i][j]))
@@ -232,7 +343,6 @@ public class SparseParse
 					}
 					printer.print(corMatrix[i][j]+"\t");
 				}
-				printer.print("\n");
 			}
 			printer.print("\n");
 			printer.close();
@@ -251,11 +361,9 @@ public class SparseParse
 
 			for(int i = 0; i<genio.size(); i++)
 			{
-				
-				printer.print(genio.get(i));
 				printer.print("\n");
+				printer.print(genio.get(i));
 			}
-			printer.print("\n");
 			printer.close();
 		}catch (IOException e){
 			e.printStackTrace();
