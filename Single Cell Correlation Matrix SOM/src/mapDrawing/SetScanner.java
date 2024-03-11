@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import som_analysis.SingleReader;
 
 import java.util.HashMap;
 
@@ -34,7 +33,7 @@ public class SetScanner
 	//Should change to asking user for approximate avg size of input files, estimating the false positive rate, then basing cutoffs off that.
 	public double structureCutOff = 0.067; //~2x max structure from randoms (0.4)
 	public double qualityCutOff = 0.05; //~2x max quality from randoms (0.17)
-	public double stateOverlapCutOff = 0.20; //Somewhere to start?
+	public double stateOverlapCutOff = 0.2; //Somewhere to start?
 	public boolean writeFalsePositiveTests = false;
 	public boolean useNodeWeightAtCuttoff = false; //used in the boolean comparison method (+1 for node overlap vs +nodeweight)
 	public int roundToInt = 100000;
@@ -380,6 +379,8 @@ public class SetScanner
 			double maxQuality = 0;
 //			double[] maxOverlaps = new double[geneStates.length];
 			System.out.println("estimating false positives");
+			
+			//produces a given number of random sets of genes then calculates the structure and overlap of each
 			for(int i =0; i < falsePositiveTrials; i++)
 			{
 				ArrayList<String> randomGenes = new ArrayList<String>();
@@ -582,7 +583,6 @@ public class SetScanner
 	public ArrayList<String> parseGenesFromFile(File f)
 	{
 		BufferedReader br = null;
-		ArrayList<Integer> inds = new ArrayList<Integer>();
 		String line = "";
 		try 
 		{

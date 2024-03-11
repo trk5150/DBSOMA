@@ -18,7 +18,7 @@ public class SOMaestro
 		String[] genes = g.readGenes(matrix.length);
 		System.out.println("finished genes");
 		
-		boolean debugNeighbors = true;
+		boolean debugNeighbors = false;
 		Map map = new Map(matSize, matSize, debugNeighbors, sig);
 		map.initializeMap();
 		System.out.println("finished building neighborhood");
@@ -26,8 +26,8 @@ public class SOMaestro
 		System.out.println("map stuff: " +map.xNodes + " " + map.yNodes + " " +map.farthestNeighbor + " " + map.maxDist + " " + map.sgm);
 		
 		
-		boolean debugTrainingPt1 = true;
-		MultiThreadTraining t = new MultiThreadTraining(map, genes, matrix, debugTrainingPt1, threads);
+		boolean debugTrainingPt1 = false;
+		MultiThreadTraining t = new MultiThreadTraining(map, genes, matrix, debugTrainingPt1, threads, args[0]);
 		//System.out.println("pre init trainer stuff: " + t.dpSize + " " + t.dpMatrix[1][1] + " " + t.dpMatrix[0][1] + " " + t.dpMag[0] + " " + t.dpMag[1] + " " + t.nMag[0] + " " + t.nMag[1]);
 		t.initialize();
 		System.out.println("post init trainer stuff: " + t.dpSize + " " + t.dpMatrix[1][1] + " " + t.dpMatrix[0][1] + " " + t.dpMag[0] + " " + t.dpMag[1] + " " + t.nMag[0] + " " + t.nMag[1]);

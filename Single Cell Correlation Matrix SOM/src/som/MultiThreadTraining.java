@@ -1,6 +1,7 @@
 package som;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,9 +23,11 @@ public class MultiThreadTraining
 	double sgm, sgmStop;
 	public double pearsonQuality;
 	public double cosineQuality;
+	public String path;
 	
-	public MultiThreadTraining(Map mm, String[] g, double[][] mat, boolean db, int threadNo)
+	public MultiThreadTraining(Map mm, String[] g, double[][] mat, boolean db, int threadNo, String corPath)
 	{
+		path = corPath;
 		sgm =3;
 		sgmStop = 0.2;
 		iterations = 100;
@@ -424,7 +427,11 @@ public class MultiThreadTraining
 	}
 	public void writeFile()
 	{
-		String filePrefix = "C:\\Users\\tik105\\Desktop\\mRNA\\single_cell_read_counts\\Stage 5\\SOM\\Stage5"; //"C:\\Users\\tik105\\Desktop\\SubCellTRIMMED_SC-BSom5050";
+	
+		File f = new File(path);
+		String filePrefix = f.getParent();
+		filePrefix = filePrefix +"\\_SOM";
+		
 		BufferedWriter b;
 		
 		String somFilename = filePrefix+".som";

@@ -9,10 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 //reads in the common format for sparse matrices, which is a file with gene names, then a second file with coordinates+count (often comes along with a file of cell identifiers, which we ignore)
 //matrix file is [gene][cell][count]
@@ -21,6 +17,8 @@ import java.util.Set;
  * To do:
  * 	ensure the genes file saves in agreement with the matrix
  * 		Do things known to correlate appear that way
+ * 
+ * 	Complete "trained from: " statements
  * */
 
 public class SparseParse 
@@ -357,12 +355,10 @@ public class SparseParse
 			FileWriter ff = new FileWriter(geneFilename,true);
 			b = new BufferedWriter(ff);
 			PrintWriter printer = new PrintWriter(b);
-			printer.print("trained from: ");
-
 			for(int i = 0; i<genio.size(); i++)
 			{
-				printer.print("\n");
 				printer.print(genio.get(i));
+				printer.print("\n");
 			}
 			printer.close();
 		}catch (IOException e){

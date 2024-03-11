@@ -80,5 +80,6 @@ public class BigScan
 	public static void main(String args[])
 	{
 		BigScan b = new BigScan(args[0], args[1], args[2], args[3]);
+		System.out.println(b.toString());
 	}
 }

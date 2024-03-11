@@ -199,7 +199,7 @@ public class DensityExplainer
 	}
 	public void densityAnalysisPrep()
 	{
-		for(int counter = 0; counter < 100000; counter++)
+		for(int counter = 0; counter < 1000; counter++)
 		{
 			int[] kk = new int[centers];
 			int i = 0;
@@ -274,6 +274,7 @@ public class DensityExplainer
 			System.out.println(namesBest[k] + " is center for: ");
 			for(int i = 0; i < dists[k].length; i++) //check each gene
 			{
+				
 				int dd = dists[i][combos.get(minIndex)[k]];
 				int minDist = dd;
 				for(int j = 0; j< indexBest.length; j++)
