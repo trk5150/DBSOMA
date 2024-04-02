@@ -431,6 +431,9 @@ public class MultiThreadTraining
 		File f = new File(path);
 		String filePrefix = f.getParent();
 		filePrefix = filePrefix +"\\_SOM";
+		File mk = new File(filePrefix);
+		filePrefix = filePrefix +"\\SOM";
+		mk.mkdir();
 		
 		BufferedWriter b;
 		

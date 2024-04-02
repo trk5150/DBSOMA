@@ -9,6 +9,9 @@ public class SOMaestro
 		int threads = 4;
 		double sig =3; //need to pass this to training as well as map
 		
+		if(args.length >2)
+			threads = Integer.parseInt(args[2]);
+		
 		boolean debugReaders = false;
 		InputMatrixReader m = new InputMatrixReader(args[0], debugReaders);
 		double[][] matrix = m.readMat();

@@ -54,7 +54,8 @@ public class SingleCellReader
 		return d;
 	}
 	
-	
+	//Lines take the form [barcode][value0][value1]...{valuen]
+	//Therefore, parse starting after the barcode
 	public double[] parseLine(String[] s)
 	{
 		double[] parsed = new double[s.length-1];

@@ -27,13 +27,15 @@ import java.util.HashMap;
 
 public class SetScanner 
 {
+	public boolean allImage = true;
+	public boolean allStructuredImage = false;
 	public boolean saveImages = true;
-	public boolean estimateFalsePositiveRate = true;
+	public boolean estimateFalsePositiveRate = false;
 	public int falsePositiveTrials = 100000;
 	//Should change to asking user for approximate avg size of input files, estimating the false positive rate, then basing cutoffs off that.
-	public double structureCutOff = 0.067; //~2x max structure from randoms (0.4)
-	public double qualityCutOff = 0.05; //~2x max quality from randoms (0.17)
-	public double stateOverlapCutOff = 0.2; //Somewhere to start?
+	public double structureCutOff = 0.075; //~1.666x max structure from randoms (0.045)
+	public double qualityCutOff = 0.057; //~1.666x max quality from randoms (0.034)
+	public double stateOverlapCutOff = 0.4; //Somewhere to start?
 	public boolean writeFalsePositiveTests = false;
 	public boolean useNodeWeightAtCuttoff = false; //used in the boolean comparison method (+1 for node overlap vs +nodeweight)
 	public int roundToInt = 100000;
@@ -52,7 +54,7 @@ public class SetScanner
 	public HashMap<String, Integer> geneToNode;
 	public ArrayList<String> mappedGenes;
 	
-	public boolean debug = true;
+	public boolean debug = false;
 
 	public ArrayList<MiniNode> nodeList;
 	
@@ -294,8 +296,9 @@ public class SetScanner
 		{
 			stately = stately.concat("\tpercent overlap with " + geneStates[i]);
 		}
-		String headers = "fileName" + "\t" + "found genes" + "\t" + "dbScan nodes" +"\t" + "Scan:found ratio" + "\t" + "quality" +stately;
+		String headers = "fileName" + "\t" + "found genes" + "\t" + "dbScan nodes" +"\t" + "Structure" + "\t" + "quality" +stately;
 		writer.add(headers);
+		structureWriter.add(headers);
 		overlapWriter.add(headers);
 		
 		//System.out.println(stately);
@@ -348,10 +351,10 @@ public class SetScanner
 			boolean overlapped = false;
 			boolean structured = false;
 			
-			if(boolVSum > structureCutOff && quality>qualityCutOff)
+			if(allImage || (boolVSum > structureCutOff && quality>qualityCutOff))
 			{
 				structured = true;
-				if(overlaps.length>0 &&overlaps[0]>stateOverlapCutOff)
+				if(allImage||allStructuredImage || (overlaps.length>0 &&overlaps[0]>stateOverlapCutOff))
 					overlapped = true;
 			}
 			

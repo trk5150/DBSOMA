@@ -45,7 +45,7 @@ public class SingleCellParserTSV
 		cutoffPortion = 0.75;      //for this portion of the identity genes
 		
 		if(trimLowCount)
-			countCutOffPercentAvg = 0.1;
+			countCutOffPercentAvg = 0.5;
 		
 		fileLoc = s;
 		System.out.println(fileLoc);

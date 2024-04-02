@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class CorrelationMatrixReader 
 {
+	public boolean skipLineOne = true;
 	public int count;
 	public int geneNum;
 	public String matFile;
@@ -40,7 +41,8 @@ public class CorrelationMatrixReader
 			e.printStackTrace();
 		}
 	    try {
-	    	br.readLine(); //skip line 1
+	    	if(skipLineOne)
+	    		br.readLine(); //skip line 1
 	    	line = br.readLine();//start on line 2
 	    	while (line != null)// && i<=0) 
 	        {
