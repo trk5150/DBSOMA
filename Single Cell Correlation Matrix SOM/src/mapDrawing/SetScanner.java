@@ -27,10 +27,11 @@ import java.util.HashMap;
 
 public class SetScanner 
 {
-	public boolean allImage = true;
+	
+	public boolean allImage = false;
 	public boolean allStructuredImage = false;
 	public boolean saveImages = true;
-	public boolean estimateFalsePositiveRate = false;
+	public boolean estimateFalsePositiveRate = true;
 	public int falsePositiveTrials = 100000;
 	//Should change to asking user for approximate avg size of input files, estimating the false positive rate, then basing cutoffs off that.
 	public double structureCutOff = 0.075; //~1.666x max structure from randoms (0.045)
@@ -54,8 +55,8 @@ public class SetScanner
 	public HashMap<String, Integer> geneToNode;
 	public ArrayList<String> mappedGenes;
 	
-	public boolean debug = false;
-
+	public boolean debug = true;
+	public boolean ignoreCase = true;
 	public ArrayList<MiniNode> nodeList;
 	
 	public SetScanner(String map, String fillle, String outdir, String[] states)
@@ -115,6 +116,8 @@ public class SetScanner
 			for(int j = 0; j < nodeList.get(i).bins.size(); j++)
 			{
 				String s = nodeList.get(i).bins.get(j).name;
+				if(ignoreCase)
+					s = s.toLowerCase();
 				mappedGenes.add(s);
 				nodeWeights[i]++;
 				geneToNode.put(s, i);
@@ -550,6 +553,8 @@ public class SetScanner
 		int [][] counts = new int[nodes][2]; //found genes in the first value, dbscan values in the second value;
 		for(String s : parseGenesFromFile(f)) //parseGenesFromFile method already filters out non-found genes
 		{
+			if(ignoreCase)
+				s = s.toLowerCase();
 			counts[geneToNode.get(s)][0]++;
 		}
 		int [][] scanned = dbScan(counts);
@@ -560,6 +565,8 @@ public class SetScanner
 		int [][] counts = new int[nodes][2];
 		for(String s : names)
 		{
+			if(ignoreCase)
+				s = s.toLowerCase();
 			counts[geneToNode.get(s)][0]++;
 		}
 		int [][] scanned = dbScan(counts);
@@ -614,9 +621,12 @@ public class SetScanner
 	        		
 	        		if(s[k].length()>1)
 	        		{
-	        			if(geneToNode.containsKey(s[k].trim()))
+	        			String string = s[k].trim();
+	        			if(ignoreCase)
+	        				string = string.toLowerCase();
+	        			if(geneToNode.containsKey(string))
 	        			{
-	        				foundGenes.add(s[k]);
+	        				foundGenes.add(string);
 	        			}
 		        	}
 	        	}

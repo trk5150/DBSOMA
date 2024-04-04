@@ -46,13 +46,14 @@ public class CorrelationMatrixReader
 	    	line = br.readLine();//start on line 2
 	    	while (line != null)// && i<=0) 
 	        {
-	    		if(line.isBlank())
+	    		//line.isBlank is not supported for java 1.8
+	    		if(line.trim().equals(""))
 	        		break;
 	        	d[i] = parseLine(line.split("\\t"));
 	        	i++;
 	        	if(i%1000 == 0)
 	        		System.out.println(i);
-	        	if(line.isBlank())
+	        	if(line.trim().equals(""))
 	        		break;
 	        	line = br.readLine();
 	        }
