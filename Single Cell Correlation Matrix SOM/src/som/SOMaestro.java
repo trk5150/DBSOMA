@@ -8,9 +8,12 @@ public class SOMaestro
 	{
 		int threads = 4;
 		double sig =3; //need to pass this to training as well as map
+		int matrixSizeArg = matSize;
 		
 		if(args.length >2)
 			threads = Integer.parseInt(args[2]);
+		if(args.length > 3)
+			matrixSizeArg = Integer.parseInt(args[3]);
 		
 		boolean debugReaders = false;
 		InputMatrixReader m = new InputMatrixReader(args[0], debugReaders);
@@ -22,7 +25,7 @@ public class SOMaestro
 		System.out.println("finished genes");
 		
 		boolean debugNeighbors = false;
-		Map map = new Map(matSize, matSize, debugNeighbors, sig);
+		Map map = new Map(matrixSizeArg, matrixSizeArg, debugNeighbors, sig);
 		map.initializeMap();
 		System.out.println("finished building neighborhood");
 		

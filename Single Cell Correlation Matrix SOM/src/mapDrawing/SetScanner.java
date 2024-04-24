@@ -33,6 +33,7 @@ public class SetScanner
 	public boolean saveImages = true;
 	public boolean estimateFalsePositiveRate = true;
 	public int falsePositiveTrials = 100000;
+	public int maxGenes = 600; //large files that sneak into the analysis are ignored
 	//Should change to asking user for approximate avg size of input files, estimating the false positive rate, then basing cutoffs off that.
 	public double structureCutOff = 0.075; //~1.666x max structure from randoms (0.045)
 	public double qualityCutOff = 0.057; //~1.666x max quality from randoms (0.034)
@@ -61,6 +62,8 @@ public class SetScanner
 	
 	public SetScanner(String map, String fillle, String outdir, String[] states)
 	{
+		// r = 1 and min = 5 for 50x50 matrix
+		// r = 3 and min =15 for 100x100
 		radius = 1;
 		minPts = 5;
 		
@@ -293,6 +296,7 @@ public class SetScanner
 		ArrayList<String> writer = new ArrayList<String>();
 		ArrayList<String> overlapWriter = new ArrayList<String>();
 		ArrayList<String> structureWriter = new ArrayList<String>();
+		ArrayList<String> hitWriter = new ArrayList<String>();
 		ArrayList<File> stateFiles = new ArrayList<File>();
 		String stately = "";
 		for(int i = 0; i < geneStates.length; i++)
@@ -303,6 +307,7 @@ public class SetScanner
 		writer.add(headers);
 		structureWriter.add(headers);
 		overlapWriter.add(headers);
+		hitWriter.add(headers);
 		
 		//System.out.println(stately);
 		
@@ -350,9 +355,14 @@ public class SetScanner
 			{
 				written = written.concat("\t" +roundDouble(d));				
 			}
-			
+			boolean hit = false;
 			boolean overlapped = false;
 			boolean structured = false;
+			
+			/** I intend to change this to sort scores based on this value and print out a the top n scoring data sets, where n is user defined*/
+			//0.001 cuttoff = ~ top 250
+			if(boolVSum *quality * overlaps[0] >0.001)
+				hit = true;
 			
 			if(allImage || (boolVSum > structureCutOff && quality>qualityCutOff))
 			{
@@ -361,6 +371,25 @@ public class SetScanner
 					overlapped = true;
 			}
 			
+			if(sum > maxGenes)
+			{
+				hit = false;
+				structured = false;
+				overlapped = false;
+			}
+			
+			
+			if(hit)
+			{
+
+				hitWriter.add(written);
+				//Hack code to stop from printing huge numbers of files when something goes off with thresholding
+				if(overlappingFiles.size()<250)
+				{
+					overlappingFiles.add(s);
+					forPainting.add(scanned);
+				}
+			}
 			if(structured)
 			{
 //				structuredFiles.add(s);
@@ -368,8 +397,8 @@ public class SetScanner
 				
 				if(overlapped)
 				{
-					forPainting.add(scanned);
-					overlappingFiles.add(s);
+//					forPainting.add(scanned);
+//					overlappingFiles.add(s);
 					overlapWriter.add(written);
 				}
 			}	
@@ -428,9 +457,9 @@ public class SetScanner
 			maxq = maxQuality;
 			System.out.println("Max Structure = " + maxStructure + "; Max quality = " + maxQuality);
 		}
-		
-		writeSelectFiles(overlapWriter, "hits");
-		writeSelectFiles(structureWriter, "structured");
+		writeSelectFiles(hitWriter, "Hits");
+		writeSelectFiles(overlapWriter, "Overlapped");
+		writeSelectFiles(structureWriter, "Structured");
 		writeFile(writer);
 		writeInfoFile();
 		System.out.println("Files meeting thresholds: " + overlappingFiles.size());
