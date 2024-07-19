@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class FilePreviewer 
 {
+	public static boolean tsv = true;
 	public static void main(String[] args)
 	{
 		BufferedReader br = null;
@@ -99,7 +100,11 @@ public class FilePreviewer
 	    	{
 	    		line = br.readLine();
 //	    		System.out.println(line);
-	    		String[] lines = line.split("\\t");
+	    		String[] lines;
+	    		if(tsv)
+	    		 lines = line.split("\\t");
+	    		else
+	    			lines = line.split(",");
 	    		for(int j =0; j < 20; j++)
 	    		{
 	    			System.out.print(lines[j] + "\t");

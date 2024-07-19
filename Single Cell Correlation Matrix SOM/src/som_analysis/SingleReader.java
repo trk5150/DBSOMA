@@ -32,7 +32,7 @@ public class SingleReader
 		madeShell = false;
 		
 		genio = new ArrayList<String>();
-		printShells = false;
+		printShells = true;
 		printAll = all;
 		doNotPrint = true;
 	}

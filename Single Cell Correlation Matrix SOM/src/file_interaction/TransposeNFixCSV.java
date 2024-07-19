@@ -94,7 +94,7 @@ public class TransposeNFixCSV
 	        {
 	        	String[] s = line.split(",");
 	        	if(s[0].contains("_"))
-	        		g[i] = s[0].substring(1, s[0].indexOf("_"));
+	        		g[i] = s[0].substring(s[0].indexOf("_")+1,s[0].length()-1);
 	        	else
 	        		g[i] = s[0];
 	        	d[i] = parseLine(s);
@@ -145,10 +145,27 @@ public class TransposeNFixCSV
 		
 		int [][] flippedData = transpo.transposeMatrix(data);
 		
+		boolean trimGeneNames = false;
+		
+		if(trimGeneNames)
+			genes = transpo.trimGeneName(genes);
+		
 		transpo.writeFiles(flippedData, genes, cells, args[1], fileRoot);
 		
 	}
-
+	public String[] trimGeneName(String[] oG)
+	{
+		String[] fixedGenes = new String[oG.length];
+		for(int i =0 ; i < oG.length; i++)
+		{
+			String s = oG[i];
+			if(oG[i].contains("_"));
+				s = oG[i].substring(oG[i].indexOf("_")+1, oG.length).trim();
+			System.out.println(oG[i] + " " + s);
+			fixedGenes[i] = s;
+		}
+		return fixedGenes;
+	}
 	public void writeFiles(int[][] data, String[] genes, String[] cells, String outPrefix, String originalFile)
 	{		
 		BufferedWriter b;

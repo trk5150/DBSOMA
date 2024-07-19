@@ -37,7 +37,8 @@ public class SetScanner
 	//Should change to asking user for approximate avg size of input files, estimating the false positive rate, then basing cutoffs off that.
 	public double structureCutOff = 0.075; //~1.666x max structure from randoms (0.045)
 	public double qualityCutOff = 0.057; //~1.666x max quality from randoms (0.034)
-	public double stateOverlapCutOff = 0.4; //Somewhere to start?
+	public double stateOverlapCutOff = 0.3; //Somewhere to start?
+	public double hitProductThreshold = structureCutOff * qualityCutOff * stateOverlapCutOff;
 	public boolean writeFalsePositiveTests = false;
 	public boolean useNodeWeightAtCuttoff = false; //used in the boolean comparison method (+1 for node overlap vs +nodeweight)
 	public int roundToInt = 100000;
@@ -56,7 +57,7 @@ public class SetScanner
 	public HashMap<String, Integer> geneToNode;
 	public ArrayList<String> mappedGenes;
 	
-	public boolean debug = true;
+	public boolean debug = false;
 	public boolean ignoreCase = true;
 	public ArrayList<MiniNode> nodeList;
 	
@@ -301,7 +302,9 @@ public class SetScanner
 		String stately = "";
 		for(int i = 0; i < geneStates.length; i++)
 		{
-			stately = stately.concat("\tpercent overlap with " + geneStates[i]);
+			String stringer = geneStates[i].substring(geneStates[i].lastIndexOf("\\")+1, geneStates[i].indexOf("."));
+			System.out.println(stringer);
+			stately = stately.concat("\t"+stringer);//.substring(geneStates[i].lastIndexOf("//")));
 		}
 		String headers = "fileName" + "\t" + "found genes" + "\t" + "dbScan nodes" +"\t" + "Structure" + "\t" + "quality" +stately;
 		writer.add(headers);
@@ -361,7 +364,7 @@ public class SetScanner
 			
 			/** I intend to change this to sort scores based on this value and print out a the top n scoring data sets, where n is user defined*/
 			//0.001 cuttoff = ~ top 250
-			if(boolVSum *quality * overlaps[0] >0.001)
+			if(boolVSum *quality * overlaps[0] >hitProductThreshold)
 				hit = true;
 			
 			if(allImage || (boolVSum > structureCutOff && quality>qualityCutOff))
@@ -378,8 +381,7 @@ public class SetScanner
 				overlapped = false;
 			}
 			
-			
-			if(hit)
+			if(hit || allImage || (allStructuredImage && boolVSum > structureCutOff && quality>qualityCutOff))
 			{
 
 				hitWriter.add(written);
