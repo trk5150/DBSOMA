@@ -50,17 +50,18 @@ Files:
 
 ## Sample_Files
 This directory contains a few files which can be used to test the various functionalities of SOMSCAN repository
+
 Included files:
--A randomly generated mock of single cell data to test the preprocessing 
--A randomly generated mock of a correlation matrix and sample gene names to test training
--A sample bash script for implenting the training
--The output SOM from actual training on the single cell sequencing data set
-  -Single cell data aquired from GSE114412
--Several transcriptional state targets for scanning
--Several selected perturbation response data sets which overlap with various target states
-  -Datasets aquired from https://maayanlab.cloud/sigcom-lincs/#/Download
--An empty directory 
--A sample bash script for running the in silico scan method
+1) A randomly generated mock of single cell data to test the preprocessing 
+2) A randomly generated mock of a correlation matrix and sample gene names to test training
+3) A sample bash script for implenting the training
+4) The output SOM from actual training on the single cell sequencing data set
+   Single cell data aquired from GSE114412
+5) Several transcriptional state targets for scanning
+6) Several selected perturbation response data sets which overlap with various target states
+   Datasets aquired from https://maayanlab.cloud/sigcom-lincs/#/Download
+7) An empty directory which will be used to output the scan results
+8) A sample bash script for running the in silico scan method
 
 ## Preprocessing
 The SOM training requires two files
