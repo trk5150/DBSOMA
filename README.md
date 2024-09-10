@@ -10,14 +10,14 @@ Below is the description of the overall workflow, a guide for using the sample d
 
 ## Table of Contents
 - [Workflow](#Workflow)
-- [Executable_Jars](#Executable_Jars)
-- [Sample_Files](#Sample_files)
+- [Executable Jars](#Executable Jars)
+- [Sample Files](#Sample files)
 - [Preprocessing](#preprocessing)
 - [Training](#Training)
 - [Scanning](#Scanning)
 - [Viewing](#Viewing)
 - [Use](#Use)
-- [Supportive_scripts](#Supportive_scripts)
+- [Supportive scripts](#Supportive scripts)
 - [License](#license)
 
 ## Workflow
@@ -39,7 +39,7 @@ The general workflow for use is:
 
   The SOM can also be used to view various gene lists before scanning, which can help to decide on states
 
-## Executable_Jars
+## Executable Jars
 Provided are a set of executable jar files which allow for use of the various functionalities described below
 Source code for each is contained in this repository, but interaction with the code is not necessary for use
 Files:
@@ -50,7 +50,7 @@ Files:
 5) transposeNFixCSV.jar
 
 
-## Sample_Files
+## Sample Files
 This directory contains a few files which can be used to test the various functionalities of SOMSCAN repository
 
 Included files:
@@ -93,7 +93,7 @@ Code in the "CorMatAnalyzer" package can be used to interact with the matrix bef
 A guide to using the provided sample files:
 
 
-## Supportive_scripts
+## Supportive scripts
 
 This repository also contains several python scripts that were used for various data processing and endpoint analyses. However, their general usability is not optimized. I would recommend personalized analyses users based on their exact needs, using these scripts only as guides.
 
