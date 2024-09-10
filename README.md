@@ -18,7 +18,7 @@ Code herein was a written by Tim Kunz. The SOM implementation is based on a prev
 - [Supportive_scripts](#Supportive_scripts)
 - [License](#license)
 
-##Workflow
+## Workflow
 The general workflow for use is:
   -Start with single cell RNA seq data
   -Preprocess the single cell data into 2 files required for SOM training:
@@ -30,7 +30,7 @@ The general workflow for use is:
 
   The SOM can also be used to view various gene lists before scanning, which can help to decide on states
 
-##Executable_Jars
+## Executable_Jars
 -Provided are a set of executable jar files which allow for use of the various functionalities described below
 -Source code for each is contained in this repository, but interaction with the code is not necessary for use
 Files:
@@ -41,7 +41,7 @@ Files:
 -transposeNFixCSV.jar
 
 
-##Sample_Files
+## Sample_Files
 This directory contains a few files which can be used to test the various functionalities of SOMSCAN repository
 Included files:
 -A randomly generated mock of single cell data to test the preprocessing 
@@ -55,7 +55,7 @@ Included files:
 -An empty directory 
 -A sample bash script for running the in silico scan method
 
-##Preprocessing
+## Preprocessing
 The SOM training requires two files
 Code in the package "correlationMatrixMaker" can be used to produce files required for SOM Training:
 -SingleCellParserTSV takes a tab delimeted file containing read count data with cell identifiers on columns and genes in rows a pairwise correlation matrix and associated list of gene names
@@ -70,20 +70,20 @@ Code in the package "file_interaction" can be used to pre-organize single cell d
 Code in the "CorMatAnalyzer"
 -provides functionality to look up a gene or set of genes in a produced pairwise correlation matrix to ensure QC has not removed desired genes
 
-##Training
+## Training
 
 
-##Scanning
+## Scanning
 
 
-##Viewing
+## Viewing
 
 
-##Use
+## Use
 A guide to using the provided sample files:
 
 
-##Supportive_scripts
+## Supportive_scripts
 This repository also contains several python scripts that were used for various data processing and endpoint analyses. However, their general usability is not optimized. I would recommend personalized analyses users based on their exact needs, using these scripts only as guides.
 Scripts:
 -
@@ -94,5 +94,5 @@ This Repository also contains R scripts used to generate GoTerm analysis plots
 Script:
 -
 
-##License
+## License
 
