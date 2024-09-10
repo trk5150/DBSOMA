@@ -65,17 +65,17 @@ Included files:
 ## Preprocessing
 The SOM training requires two files
 Code in the package "correlationMatrixMaker" can be used to produce files required for SOM Training:
--SingleCellParserTSV takes a tab delimeted file containing read count data with cell identifiers on columns and genes in rows a pairwise correlation matrix and associated list of gene names
--SparseParse takes read count data in sparse matrix notation to produce a pairwise correlation matrix and associated list of gene names
+1) SingleCellParserTSV takes a tab delimeted file containing read count data with cell identifiers on columns and genes in rows a pairwise correlation matrix and associated list of gene names
+2) SparseParse takes read count data in sparse matrix notation to produce a pairwise correlation matrix and associated list of gene names
 
 Code in the package "file_interaction" can be used to pre-organize single cell data to transpose matricies:
--transposeNFixCSV = convert a CSV file to tsv file
--transposeTSV = transpose a TSV file to have cell identifiers on columns and genes in rows
--FilePreviewer = functionality to read a first 2 lines of a file to ensure the matrix looks as expected
+1) transposeNFixCSV = convert a CSV file to tsv file
+2) transposeTSV = transpose a TSV file to have cell identifiers on columns and genes in rows
+3) FilePreviewer = functionality to read a first 2 lines of a file to ensure the matrix looks as expected
 
 
-Code in the "CorMatAnalyzer"
--provides functionality to look up a gene or set of genes in a produced pairwise correlation matrix to ensure QC has not removed desired genes
+Code in the "CorMatAnalyzer" package can be used to interact with the matrix before beginning training
+1) provides functionality to look up a gene or set of genes in a produced pairwise correlation matrix to ensure QC has not removed desired genes
 
 ## Training
 
@@ -91,7 +91,9 @@ A guide to using the provided sample files:
 
 
 ## Supportive_scripts
+
 This repository also contains several python scripts that were used for various data processing and endpoint analyses. However, their general usability is not optimized. I would recommend personalized analyses users based on their exact needs, using these scripts only as guides.
+
 Scripts:
 -
 -
