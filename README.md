@@ -21,31 +21,31 @@ Code herein was a written by Tim Kunz. The SOM implementation is based on a prev
 ## Workflow
 The general workflow for use is:
   
-  -Start with single cell RNA seq data
+  1) Start with single cell RNA seq data
   
-  -Preprocess the single cell data into 2 files required for SOM training:
+  2) Preprocess the single cell data into 2 files required for SOM training:
   
-    -a pairwise gene x gene correlation matrix based on single cell sequencing data
+    a) a pairwise gene x gene correlation matrix based on single cell sequencing data
     
-    -a list of gene names associated with each row/column of the square correlation matrix
+    b) a list of gene names associated with each row/column of the square correlation matrix
   
-  -Train a self organizing map with the pairwise correlation matrix
+  3) Train a self organizing map with the pairwise correlation matrix
   
-  -Scan the self organizing map (or maps) for pertubation gene lists which overlap with a set of desired states
+  4) Scan the self organizing map (or maps) for pertubation gene lists which overlap with a set of desired states
   
-  -Interact with the resulting scan outputs to generate a list of perturbations predicted to effect genes of the desired state
+  5) Interact with the resulting scan outputs to generate a list of perturbations predicted to effect genes of the desired state
 
   The SOM can also be used to view various gene lists before scanning, which can help to decide on states
 
 ## Executable_Jars
--Provided are a set of executable jar files which allow for use of the various functionalities described below
--Source code for each is contained in this repository, but interaction with the code is not necessary for use
+Provided are a set of executable jar files which allow for use of the various functionalities described below
+Source code for each is contained in this repository, but interaction with the code is not necessary for use
 Files:
--SingleCellParserTSV.jar
--SparesParse.jar
--FilePreviewer.jar
--transposeTSV.jar
--transposeNFixCSV.jar
+1) SingleCellParserTSV.jar
+2) SparesParse.jar
+3) FilePreviewer.jar
+4) transposeTSV.jar
+5) transposeNFixCSV.jar
 
 
 ## Sample_Files
