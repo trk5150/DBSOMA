@@ -192,8 +192,11 @@ public class SOMViewer extends JFrame
 	}
 
 	public static void main(String[] args) {
-		ChromoSOM som = new ChromoSOM(args, true);
-		som.view();
+		SOMViewer viewer = new SOMViewer(700,700, "view");
+		viewer.initViewer(false);
+		
+//		ChromoSOM som = new ChromoSOM(args, true);
+//		som.view();
 	}
 	
 }
