@@ -77,7 +77,7 @@ public class DrawHex extends JPanel
 	{
 		BufferedImage image = null;
 		try {
-			image = new Robot().createScreenCapture(new Rectangle(this.getLocationOnScreen().x+62, this.getLocationOnScreen().y+30, 511, 457));
+			image = new Robot().createScreenCapture(new Rectangle(this.getLocationOnScreen().x+62, this.getLocationOnScreen().y+62, 514, 463));
 		} catch (AWTException e1) {
 			e1.printStackTrace();
 		}

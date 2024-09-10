@@ -354,6 +354,8 @@ public class SetScanner
 
 			double quality = callsInScannedNodesRatio(boolList, scanned);
 			String written = name + "\t" + sum +"\t"+ boolTot + "\t" +boolVSum + "\t" + quality;
+			
+			
 			for(double d : overlaps)
 			{
 				written = written.concat("\t" +roundDouble(d));				

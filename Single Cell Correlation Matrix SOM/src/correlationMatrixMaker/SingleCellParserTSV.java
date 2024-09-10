@@ -39,7 +39,7 @@ public class SingleCellParserTSV
 	
 	SingleCellParserTSV (String s)
 	{
-		trimLowCount = true;
+		trimLowCount = false;
 		subCellPop = false;
 		cellCutOffPercentage = 20; //must be above this % of average count for...
 		cutoffPortion = 0.75;      //for this portion of the identity genes
