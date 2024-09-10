@@ -20,12 +20,19 @@ Code herein was a written by Tim Kunz. The SOM implementation is based on a prev
 
 ## Workflow
 The general workflow for use is:
+  
   -Start with single cell RNA seq data
+  
   -Preprocess the single cell data into 2 files required for SOM training:
+  
     -a pairwise gene x gene correlation matrix based on single cell sequencing data
+    
     -a list of gene names associated with each row/column of the square correlation matrix
+  
   -Train a self organizing map with the pairwise correlation matrix
+  
   -Scan the self organizing map (or maps) for pertubation gene lists which overlap with a set of desired states
+  
   -Interact with the resulting scan outputs to generate a list of perturbations predicted to effect genes of the desired state
 
   The SOM can also be used to view various gene lists before scanning, which can help to decide on states
