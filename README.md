@@ -2,7 +2,7 @@
 This project is a java based tool for training a Self Organizing Map based on single cell RNA-seq data which is then used to evaluate gene lists for the degree of cluster formation by the DBSCAN algorithm. 
 The goal is to allow users to in silico screen transcriptional perturbation data to make more accurate predictions 
 
-Code herein was a written by Timothy Kunz. The SOM training implementation is based on a previous implementation which can be found ___, with an associate publication ____. Other code, including DBSCAN implementation and scripts are original code.
+Code herein was a written by Timothy Kunz. The SOM training implementation is a modified from a previous implementation which can be found https://github.com/seqcode/chromosom, with an associate publication https://doi.org/10.1016/j.ymeth.2020.07.002. Other code, including DBSCAN implementation and scripts are original code.
 
 Below is the description of the overall workflow, a guide for using the sample data provided in this repository, and description of the methods used at each step.
 
