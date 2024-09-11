@@ -2,7 +2,7 @@
 This project is a java based tool for training a Self Organizing Map based on single cell RNA-seq data which is then used to evaluate gene lists for the degree of cluster formation by the DBSCAN algorithm. 
 The goal is to allow users to in silico screen transcriptional perturbation data to make more accurate predictions 
 
-Code herein was a written by Timothy Kunz. The SOM training implementation is a modified from a previous implementation which can be found https://github.com/seqcode/chromosom, with an associate publication https://doi.org/10.1016/j.ymeth.2020.07.002. Other code, including DBSCAN implementation and scripts are original code.
+Code herein was a written by Timothy Kunz. The SOM training and viewing implementation is a modified from a previous implementation which can be found https://github.com/seqcode/chromosom, with an associate publication https://doi.org/10.1016/j.ymeth.2020.07.002. Other code, including DBSCAN implementation and scripts are original code.
 
 Below is the description of the overall workflow, a guide for using the sample data provided in this repository, and description of the methods used at each step.
 
@@ -44,7 +44,7 @@ Provided are a set of executable jar files which allow for use of the various fu
 Source code for each is contained in this repository, but interaction with the code is not necessary for use
 Files:
 1) SingleCellParserTSV.jar
-2) SparesParse.jar
+2) SparseParse.jar
 3) FilePreviewer.jar
 4) transposeTSV.jar
 5) transposeNFixCSV.jar
@@ -67,6 +67,7 @@ Included files:
 
 ## Preprocessing
 The SOM training requires two files
+
 Code in the package "correlationMatrixMaker" can be used to produce files required for SOM Training:
 1) SingleCellParserTSV takes a tab delimeted file containing read count data with cell identifiers on columns and genes in rows a pairwise correlation matrix and associated list of gene names
 2) SparseParse takes read count data in sparse matrix notation to produce a pairwise correlation matrix and associated list of gene names
@@ -81,13 +82,45 @@ Code in the "CorMatAnalyzer" package can be used to interact with the matrix bef
 1) provides functionality to look up a gene or set of genes in a produced pairwise correlation matrix to ensure QC has not removed desired genes
 
 ## Training
+The source code used for SOM training can be found in "som" package in this repository, and runs from the SOMaestro main method.
 
+Training requires 3 files:
+1) SOMtrainer.jar
+2) A pairwise correlation matrix file
+3) A line split list of genes corresponding to the matrix files
+
+The training is able to run with multiple threads. Due to the size of the matrix files, training on a local machine is quite time consuming. It is recommended to run training on a cluster with many threads.
+
+Training runs with the following command: 
+    java -jar /path/to/SOMtrainer.jar /path/to/correlation_matrix /path/to/genes threads (no. of threads) (desired output matrix size)
+
+An example bash script for running training "trainingscript.sh" in this repository
+
+Training outputs 2 files to the directory from which SOMTrainer.jar was called. 
+1) The output map, a line split list of SOM coordinates followed by the names of genes assigned to each node
+2) An info file describing the running and results of the SOM
+
+Once a SOM has been trained, it can be used by the viewer (#Viewing), or to scan gene lists and categorize the degree of clustering and overlap with a desired other list of genes (#Scanning). 
 
 ## Scanning
+Once a SOM has been trained, it can be used by the viewer, described below, or to scan gene lists and categorize the 
+
+THe source code used for the scanning process is in the "mapScanning" package in this repository
+
+
 
 
 ## Viewing
+The Viewer, contained in the exectuable jar file "SOMviewer.jar" will first open a file explorer which users can select a trained SOM.
 
+After openning a selected SOM, the window will display a projection of all genes in their assigned node, and offers several functionalities.
+
+1) Save: this button will save a screenshot of the current projection in the directory from which "SOMviewer.jar" was launched. The name of the file will be whatever has been typed into the dilague box (gene...) as default
+2) Search: This button will open a file explorer dilague box with which users can select a line seperated list of genes. The selected list will then be projected onto the map. This can be used to determine by the eye the degree of clustering a list of genes forms on the map
+3) Search 2: This button will open a file explorer dilague box twice. Users select two line separated lists of genes, both of which will be projected on to the SOM. The first list selected will map in red, the second will map in blue
+4) View swap: This button cycles through a few different appearances with which one can examine the current SOM projection
+5) gene: This button will search for whatever gene name is currently written in the dialog box, and if found that gene's assigned node will be colored red.
+6) Dialog box: Users can type here. Used to select the name of a saved file or select a gene to search for.
 
 ## Use
 A guide to using the provided sample files:
@@ -95,16 +128,14 @@ A guide to using the provided sample files:
 
 ## Supportive_scripts
 
-This repository also contains several python scripts that were used for various data processing and endpoint analyses. However, their general usability is not optimized. I would recommend personalized analyses users based on their exact needs, using these scripts only as guides.
-
+This repository also contains several python scripts that were used for various data processing and endpoint analyses. However, their general usability is not optimized. I would recommend users personalize analyses based on their exact needs, using these scripts only as guides.
 Scripts:
--
--
--
+
 
 This Repository also contains R scripts used to generate GoTerm analysis plots 
 Script:
--
+
+This Repository contains Bash scripts which serve as exmapls for how to run the various jar files.
 
 ## License
 MIT License
