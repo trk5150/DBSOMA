@@ -103,11 +103,21 @@ Training outputs 2 files to the directory from which SOMTrainer.jar was called.
 Once a SOM has been trained, it can be used by the viewer (#Viewing), or to scan gene lists and categorize the degree of clustering and overlap with a desired other list of genes (#Scanning). 
 
 ## Scanning
-Once a SOM has been trained, it can be used by the viewer, described below, or to scan gene lists and categorize the 
-
-THe source code used for the scanning process is in the "mapScanning" package in this repository
+The source code used for the scanning process is in the "mapScanning" package in this repository.
 
 
+Scanning a SOM requires 4 directories:
+1) A directory containing any number of trained SOM files
+2) A directory containing a number of gene lists defining target states
+3) A directory containing a number of gene lists to be scanned against the target states (perturbagen responses)
+4) An empty directory were results will be populated
+
+Scanning proceeds by first loading the SOM file. Next, lists of genes a projected onto the SOM and subjected to the DBSCAN algorithm. 
+The DBSCAN implementation iterates as follows:
+For each gene in the list, find its assigned node, increment the count of that assigned node and nodes within a radius (1 by default). After that has been done for each gene, 
+
+
+The alphabetically first listed file in the target states directory will automatically populate with images of both the intial projection and the DBSCAN resultant projection. 
 
 
 ## Viewing
