@@ -35,7 +35,6 @@ public class BigScan
 			stateAddresses[i] = stateFiles.get(i).getAbsolutePath();
 		}
 		
-		
 		for(int i = 0; i< somFiles.size(); i++)
 		{
 			String subName = somFiles.get(i).getName().substring(0,somFiles.get(i).getName().indexOf("."));
