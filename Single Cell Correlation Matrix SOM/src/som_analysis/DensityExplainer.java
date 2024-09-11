@@ -6,10 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import mapDrawing.DataPoint;
-import mapDrawing.DrawHex;
-import mapDrawing.MiniNode;
-import mapDrawing.SOMViewer;
+import mapScanning.DataPoint;
+import mapScanning.DrawHex;
+import mapScanning.MiniNode;
+import mapScanning.SOMViewer;
 
 public class DensityExplainer 
 {

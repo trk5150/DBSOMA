@@ -1,4 +1,4 @@
-package mapDrawing;
+package mapScanning;
 
 import java.awt.Color;
 import java.awt.Font;

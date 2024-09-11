@@ -1,4 +1,4 @@
-package mapDrawing;
+package mapScanning;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

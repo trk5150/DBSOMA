@@ -1,4 +1,4 @@
-package mapDrawing;
+package mapScanning;
 public class DataPoint 
 {
 	public String look;

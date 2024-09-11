@@ -1,4 +1,4 @@
-package mapDrawing;
+package mapScanning;
 
 import java.awt.Polygon;
 import java.io.File;

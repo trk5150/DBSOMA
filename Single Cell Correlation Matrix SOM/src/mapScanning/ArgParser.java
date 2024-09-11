@@ -1,4 +1,4 @@
-package mapDrawing;
+package mapScanning;
 
 import java.util.HashMap;
 import java.util.LinkedList;

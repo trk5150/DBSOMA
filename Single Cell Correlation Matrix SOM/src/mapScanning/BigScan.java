@@ -1,4 +1,4 @@
-package mapDrawing;
+package mapScanning;
 
 import java.io.File;
 import java.io.IOException;

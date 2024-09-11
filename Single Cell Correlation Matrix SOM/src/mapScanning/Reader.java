@@ -1,4 +1,4 @@
-package mapDrawing;
+package mapScanning;
 
 import java.io.*;
 import java.util.ArrayList;
