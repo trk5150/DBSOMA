@@ -105,20 +105,35 @@ Once a SOM has been trained, it can be used by the viewer (#Viewing), or to scan
 ## Scanning
 The source code used for the scanning process is in the "mapScanning" package in this repository.
 
-
 Scanning a SOM requires 4 directories:
 1) A directory containing any number of trained SOM files
 2) A directory containing a number of gene lists defining target states
 3) A directory containing a number of gene lists to be scanned against the target states (perturbagen responses)
 4) An empty directory were results will be populated
 
+The following process is performed for each SOM in the directory
+
 Scanning proceeds by first loading the SOM file. Next, lists of genes a projected onto the SOM and subjected to the DBSCAN algorithm. 
 The DBSCAN implementation iterates as follows:
-For each gene in the list, find its assigned node, increment the count of that assigned node and nodes within a radius (1 by default). After that has been done for each gene, 
+1) For each gene in the list, find its assigned node
+2) increment the count of that assigned node and nodes within a radius (1 by default).
+3) After that has been done for each gene, identify nodes with count >= min (5 by default). These nodes are _called_
+4) Calculate _structure_ and _quality_ matrics
+5) Calculate overlap of _called_ nodes between current list and target state lists
 
+Next, 100,000 lists of genes are randomly generated and the same metrics are calculated for each.
 
-The alphabetically first listed file in the target states directory will automatically populate with images of both the intial projection and the DBSCAN resultant projection. 
+This is done for each gene list, then the output directory is populated as follows:
 
+1) Images of the DBSCAN resultant projection of each input state are saved
+2) Analysis_metadata.txt contains information about the parameters and files used in the scanning.
+3) The values calculated for each input gene list are tabulated in SOM_Analysis.txt
+4) The values calculated for each list with _strucutre_ >0.075 and _quality_ >0.057 are tabulated in
+5) The values for list passing the above thresholds and also have _overlap_ >0.40 values with the first target gene list are tabulated in Overlap_Analysis,.txt
+6) The values for lists in which the product of _strucutre_ * _quality_ * _overlap_ above the product of the thresholds are tabulated in Hits_Analysis.txt
+7) The alphabetically first listed file in the target states directory will automatically populate two directories, one with images of the intial projection of the list (Images) and the other with DBSCAN resultant projection (Trimmed), for up to 250 lists that are scored as hits. 
+
+While both the Hits_Analysis and Overlap_Analysis outputs will contain high scoring gene lists, we recommend interacting the the Structure_Analysis.txt file directly for subsequent analysis. SOM_Analysis.txt can also be used, but is often too big for easy use in excel.
 
 ## Viewing
 The Viewer, contained in the exectuable jar file "SOMviewer.jar" will first open a file explorer which users can select a trained SOM.
