@@ -257,7 +257,6 @@ public class DrawHex extends JPanel
 	  
 			
 			multiHeatMapping();
-			gini();
 			//degreesOfSep();
 			repaint();
 
@@ -292,7 +291,6 @@ public class DrawHex extends JPanel
     		}
     	}
 		multiHeatMapping();
-		gini();
 		//degreesOfSep();
 		repaint();
 //		System.out.println(dataPoints.get(260).name + " " + dataPoints.get(260).myMini.counting.size());
@@ -361,7 +359,6 @@ public class DrawHex extends JPanel
 			e.printStackTrace();
 		}
 	    multiHeatMapping();
-		gini();
 		//degreesOfSep();
 		repaint();
 	} 
@@ -554,7 +551,6 @@ public class DrawHex extends JPanel
 	    maxDataPoints = 0;
 	    minDataPoints = 0;
 		heatMapping();
-		gini();
 		degreesOfSep();
 		repaint();
 	}
@@ -678,10 +674,10 @@ public class DrawHex extends JPanel
 		    	g.drawPolygon(nodeList.get(i).p);
 	    	}
 	    }
-	    g.setColor(Color.BLACK);
-    	g.setFont(new Font("Arial", Font.PLAIN, fontSize));
-    	String giniStr = String.format("Gini = %.4f", gini);
-    	g.drawString(giniStr, (getWidth()/2)-(g.getFontMetrics().stringWidth(giniStr)/2), (yMin/2)-(g.getFontMetrics().getHeight()/2)+20);
+//	    g.setColor(Color.BLACK);
+//    	g.setFont(new Font("Arial", Font.PLAIN, fontSize));
+//    	String giniStr = String.format("Gini = %.4f", gini);
+//    	g.drawString(giniStr, (getWidth()/2)-(g.getFontMetrics().stringWidth(giniStr)/2), (yMin/2)-(g.getFontMetrics().getHeight()/2)+20);
     	//g.drawString("Sep = "+ sep, getWidth()-400, 15);
 	}
 	public void nodeBuild(int winW, int winH)
