@@ -61,12 +61,35 @@ public class SetScanner
 	public boolean ignoreCase = true;
 	public ArrayList<MiniNode> nodeList;
 	
-	public SetScanner(String map, String fillle, String outdir, String[] states)
+//	public SetScanner(String map, String fillle, String outdir, String[] states)
+//	{
+//		// r = 1 and min = 5 for 50x50 matrix
+//		// r = 3 and min =15 for 100x100
+//		radius = 1;
+//		minPts = 5;
+//		
+//		geneStates = states;
+//		mapper = map;
+//		fold = fillle;
+//		File folder = new File(fillle);
+//		outDir = new File(outdir);
+//		trimmedOutDir = new File(outdir + "\\Trimmed");
+//		String mapp = map;
+//		yNodes=0;
+//		xNodes=0;
+//		
+//		mapReader(mapp);
+//
+//		nodes = yNodes*xNodes;
+//		geneToNode = new HashMap<String, Integer>();
+//		hashMapper();
+//		populateDistanceMatrix();
+//		findSearchFiles(folder);
+//	}
+	public SetScanner(String map, String fillle, String outdir, String[] states, int rad, int min)
 	{
-		// r = 1 and min = 5 for 50x50 matrix
-		// r = 3 and min =15 for 100x100
-		radius = 1;
-		minPts = 5;
+		radius = rad;
+		minPts = min;
 		
 		geneStates = states;
 		mapper = map;

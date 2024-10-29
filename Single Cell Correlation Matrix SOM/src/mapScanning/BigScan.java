@@ -44,13 +44,49 @@ public class BigScan
 			File subOutDir = new File(outDir + "//" +subName);
 			subOutDir.mkdir();
 			
-			String[] args = new String[3+stateAddresses.length];
-			args[0] = somFiles.get(i).getAbsolutePath();
-			args[1] = projections;
-			args[2] = subOutDir.getAbsolutePath();
+			String[] args = new String[5+stateAddresses.length];
+			args[0] = "1";
+			args[1] = "5";
+			args[2] = somFiles.get(i).getAbsolutePath();
+			args[3] = projections;
+			args[4] = subOutDir.getAbsolutePath();
 			for(int j =0; j< stateAddresses.length; j++)
 			{
-				args[3+j] = stateAddresses[j];
+				args[5+j] = stateAddresses[j];
+			}
+			SOMAnalysis.main(args);
+		}
+	}
+	public BigScan(String soms, String projections, String out, String states, String rad, String min)
+	{
+		outDir = out;
+		ArrayList<File> somFiles = prepDirectory(soms); 
+		ArrayList<File> stateFiles = prepDirectory(states);
+//		System.out.println("state number " + stateFiles.size());
+		String[] stateAddresses =new String[stateFiles.size()];
+		for(int i = 0; i< stateAddresses.length; i++)
+		{
+			stateAddresses[i] = stateFiles.get(i).getAbsolutePath();
+		}
+		
+		for(int i = 0; i< somFiles.size(); i++)
+		{
+			String subName = somFiles.get(i).getName().substring(0,somFiles.get(i).getName().indexOf("."));
+
+			System.out.println("SOM: " + subName + " being analyzed");
+			
+			File subOutDir = new File(outDir + "//" +subName);
+			subOutDir.mkdir();
+			
+			String[] args = new String[5+stateAddresses.length];
+			args[0] = rad;
+			args[1] = min;
+			args[2] = somFiles.get(i).getAbsolutePath();
+			args[3] = projections;
+			args[4] = subOutDir.getAbsolutePath();
+			for(int j =0; j< stateAddresses.length; j++)
+			{
+				args[5+j] = stateAddresses[j];
 			}
 			SOMAnalysis.main(args);
 		}
@@ -78,7 +114,11 @@ public class BigScan
 	//need a special arg for the lead state?
 	public static void main(String args[])
 	{
-		BigScan b = new BigScan(args[0], args[1], args[2], args[3]);
+		BigScan b;
+		if(args.length>4)
+			b = new BigScan(args[0], args[1], args[2], args[3], args[4], args[5]);
+		else
+			b = new BigScan(args[0], args[1], args[2], args[3]);
 		System.out.println(b.toString());
 	}
 }

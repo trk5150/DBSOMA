@@ -11,7 +11,7 @@ import mapScanning.DrawHex;
 import mapScanning.MiniNode;
 import mapScanning.SOMViewer;
 
-public class DensityExplainer 
+public class NeighborhoodCalling 
 {
 	public int minIndex;
 	public ArrayList<int[]> combos;
@@ -23,7 +23,7 @@ public class DensityExplainer
 	public String SOMfile, densityFile, centerFile;
 	public DrawHex som;
 	public ArrayList<DataPoint> densityGenes, centerGenes;
-	public DensityExplainer(int i, String file1, String file2, String file3)
+	public NeighborhoodCalling(int i, String file1, String file2, String file3)
 	{
 		differentCenterFile = true;
 		centers = i;
@@ -32,7 +32,7 @@ public class DensityExplainer
 		centerFile = file3;
 		som = new DrawHex(file1);
 	}
-	public DensityExplainer(int i, String file1, String file2)
+	public NeighborhoodCalling(int i, String file1, String file2)
 	{
 		differentCenterFile = false;
 		centers = i;
@@ -298,11 +298,11 @@ public class DensityExplainer
 	{
 		boolean many = false; 
 		
-		DensityExplainer d;
+		NeighborhoodCalling d;
 		if(args.length == 4)
-			d = new DensityExplainer(Integer.parseInt(args[0]), args[1], args[2], args[3]);
+			d = new NeighborhoodCalling(Integer.parseInt(args[0]), args[1], args[2], args[3]);
 		else
-			d= new DensityExplainer(Integer.parseInt(args[0]), args[1], args[2]);
+			d= new NeighborhoodCalling(Integer.parseInt(args[0]), args[1], args[2]);
 		d.readFiles();
 		d.distanceToCenters();
 		int kk = d.centers;
