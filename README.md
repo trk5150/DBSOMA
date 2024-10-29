@@ -57,9 +57,8 @@ This directory contains a few files which can be used to test the various functi
 Included files:
 1) A randomly generated mock of single cell data to test the preprocessing 
 2) A randomly generated mock of a correlation matrix and sample gene names to test training
-3) A sample bash script for implenting the training
-4) The output SOM from actual training on the single cell sequencing data set
-   Single cell data aquired from GSE114412
+3) A sample bash script for implementing the training
+4) The output SOM from actual training on the single cell sequencing data set aquired from GSE114412
 5) Several transcriptional state targets for scanning
 6) Several selected perturbation response data sets which overlap with various target states
    Datasets aquired from https://maayanlab.cloud/sigcom-lincs/#/Download
