@@ -14,6 +14,7 @@ Below is the description of the overall workflow, a guide for using the sample d
 - [Sample_Files](#Sample_files)
 - [Preprocessing](#preprocessing)
 - [Training](#Training)
+- [Neighborhood_Calling](#Neighborhood_Calling)
 - [Scanning](#Scanning)
 - [Viewing](#Viewing)
 - [Use](#Use)
@@ -102,6 +103,25 @@ Training outputs 2 files to the directory from which SOMTrainer.jar was called.
 
 Once a SOM has been trained, it can be used by the viewer (#Viewing), or to scan gene lists and categorize the degree of clustering and overlap with a desired other list of genes (#Scanning). 
 
+## Neighborhood_Calling
+The NeighborhoodCalling class in the som_analysis package can be use to find the genes which make up a cluster observed by eye. This is useful for defining a target neighborhood, specifically when a given list of genes shows multiple discrete clusters and you'd like to specifically target one of those.
+
+Requires 3 files:
+1) NeighborhoodCalling.jar
+2) Trained SOM file
+3) list of genes to identify neighborhoods among
+
+Training requires 3 arguments:
+1) Int number of clusters
+2) Path to Trained SOM file (MySom.som)
+3) Path to gene list
+4) Optional: List of specific genes which can be the center of a neighborhood
+
+The training is able to run with multiple threads. Due to the size of the matrix files, training on a local machine is quite time consuming. It is recommended to run training on a cluster with many threads.
+
+Training runs with the following command: 
+    java -jar /path/to/NeighborhoodCalling.jar (number of clusters) /path/to/MySom.som /path/to/GenesList
+
 ## Scanning
 The source code used for the scanning process is in the "mapScanning" package in this repository.
 
@@ -110,6 +130,9 @@ Scanning a SOM requires 4 directories:
 2) A directory containing a number of gene lists defining target states
 3) A directory containing a number of gene lists to be scanned against the target states (perturbagen responses)
 4) An empty directory were results will be populated
+Optionally, add DBSCAN arguments:
+5) Radius argument for DBSCAN (1 by default)
+6) MinPts argument for DBSCAN (5 by default)
 
 The following process is performed for each SOM in the directory
 
