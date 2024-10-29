@@ -1,9 +1,13 @@
 package som_analysis;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import mapScanning.DataPoint;
@@ -20,16 +24,19 @@ public class NeighborhoodCalling
 	public int[] indexBest;
 	public boolean differentCenterFile;
 	public int centers;
-	public String SOMfile, densityFile, centerFile;
+	public String SOMfile, densityFile, centerFile, outDir;
 	public DrawHex som;
 	public ArrayList<DataPoint> densityGenes, centerGenes;
 	public NeighborhoodCalling(int i, String file1, String file2, String file3)
 	{
+		
 		differentCenterFile = true;
 		centers = i;
 		SOMfile = file1;
 		densityFile = file2;
 		centerFile = file3;
+		File f = new File(file1);
+		outDir = f.getParent();
 		som = new DrawHex(file1);
 	}
 	public NeighborhoodCalling(int i, String file1, String file2)
@@ -39,6 +46,8 @@ public class NeighborhoodCalling
 		SOMfile = file1;
 		densityFile = file2;
 		centerFile = file2;
+		File f = new File(file1);
+		outDir = f.getParent();
 		som = new DrawHex(file1);
 	}
 	public void readFiles()
@@ -293,6 +302,44 @@ public class NeighborhoodCalling
 		}
 		
 	}
+	public void writeFile()
+	{
+		BufferedWriter b;
+		try 
+		{
+			FileWriter ff;
+			ff = new FileWriter(outDir+File.separator+"Density_Analysis_" +centers  +"_centers.txt",false);
+			b = new BufferedWriter(ff);
+			PrintWriter printer = new PrintWriter(b);
+			for(int k = 0; k< indexBest.length; k++) //each center
+			{
+				printer.println(namesBest[k] + " is center for: ");
+				for(int i = 0; i < dists[k].length; i++) //check each gene
+				{
+					
+					int dd = dists[i][combos.get(minIndex)[k]];
+					int minDist = dd;
+					for(int j = 0; j< indexBest.length; j++)
+					{
+						int distToCenter = dists[i][combos.get(minIndex)[j]];
+						if(distToCenter<minDist)
+							minDist= distToCenter;
+					}
+					if(dd<=minDist)
+					{
+						//System.out.println(dists[k][i]);
+						printer.print(densityGenes.get(i).name + ", ");
+					}
+				}
+				printer.println("\n");
+			}
+			printer.close();
+		}
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 	//takes: number of density centers (int), file location for a SOM, file location for a list of genes (defines a density), optional 3rd file location for specific density centers (otherwise uses genes from density file)
 	public static void main(String[] args)
 	{
@@ -323,6 +370,7 @@ public class NeighborhoodCalling
 		{
 			d.densityAnalysisPrep();
 			d.printGenesAssigned();
+			d.writeFile();
 		}
 	}
 }
