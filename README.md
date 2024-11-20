@@ -2,11 +2,9 @@
 This project is a java based tool for training a Self Organizing Map based on single cell RNA-seq data which is then used to evaluate gene lists for the degree of cluster formation by the DBSCAN algorithm. 
 The goal is to allow users to in silico screen transcriptional perturbation data to make more accurate predictions 
 
-Code herein was a written by Timothy Kunz. The SOM training and viewing implementation is a modified from a previous implementation which can be found https://github.com/seqcode/chromosom, with an associate publication https://doi.org/10.1016/j.ymeth.2020.07.002. Other code, including DBSCAN implementation and scripts are original code.
+Code herein was a written by Timothy Kunz. The SOM training and viewing implementation is a modified from a previous implementation which can be found https://github.com/seqcode/chromosom, with an associated publication https://doi.org/10.1016/j.ymeth.2020.07.002. Other code, including DBSCAN implementation and scripts are original code.
 
 Below is the description of the overall workflow, a guide for using the sample data provided in this repository, and description of the methods used at each step.
-
-**In progress**
 
 ## Table of Contents
 - [Workflow](#Workflow)
@@ -38,7 +36,7 @@ The general workflow for use is:
   
   5) Interact with the resulting scan outputs to generate a list of perturbations predicted to effect genes of the desired state
 
-  The SOM can also be used to view various gene lists before scanning, which can help to decide on states
+  The SOM can also be used to view various gene lists before scanning, which can help to decide on target states
 
 ## Executable_Jars
 Provided are a set of executable jar files which allow for use of the various functionalities described below
@@ -49,6 +47,9 @@ Files:
 3) FilePreviewer.jar
 4) transposeTSV.jar
 5) transposeNFixCSV.jar
+6) SOMTrainer.jar
+7) SOMViewer.jar
+8) DBSOMA.jar
 
 
 ## Sample_Files
@@ -92,7 +93,7 @@ Training requires 3 files:
 The training is able to run with multiple threads. Due to the size of the matrix files, training on a local machine is quite time consuming. It is recommended to run training on a cluster with many threads.
 
 Training runs with the following command: 
-    java -jar /path/to/SOMtrainer.jar /path/to/correlation_matrix /path/to/genes threads (no. of threads) (desired output matrix size)
+    java -jar /path/to/SOMtrainer.jar /path/to/correlation_matrix /path/to/genes threads [no. of threads] {desired output matrix size}
 
 An example bash script for running training "trainingscript.sh" in this repository
 
@@ -116,10 +117,8 @@ Training requires 3 arguments:
 3) Path to gene list
 4) Optional: List of specific genes which can be the center of a neighborhood
 
-The training is able to run with multiple threads. Due to the size of the matrix files, training on a local machine is quite time consuming. It is recommended to run training on a cluster with many threads.
-
-Training runs with the following command: 
-    java -jar /path/to/NeighborhoodCalling.jar (number of clusters) /path/to/MySom.som /path/to/GenesList
+Calling runs with the following command: 
+    java -jar /path/to/NeighborhoodCalling.jar (number of clusters) /path/to/MySom.som /path/to/GenesList (optional)/path/to/DesiredGeneCenters
 
 ## Scanning
 The source code used for the scanning process is in the "mapScanning" package in this repository.
@@ -146,16 +145,17 @@ The DBSCAN implementation iterates as follows:
 Next, 100,000 lists of genes are randomly generated and the same metrics are calculated for each.
 
 This is done for each gene list, then the output directory is populated as follows:
-
-1) Images of the DBSCAN resultant projection of each input state are saved
-2) Analysis_metadata.txt contains information about the parameters and files used in the scanning.
-3) The values calculated for each input gene list are tabulated in SOM_Analysis.txt
-4) The values calculated for each list with _strucutre_ >0.075 and _quality_ >0.057 are tabulated in
-5) The values for list passing the above thresholds and also have _overlap_ >0.40 values with the first target gene list are tabulated in Overlap_Analysis,.txt
-6) The values for lists in which the product of _strucutre_ * _quality_ * _overlap_ above the product of the thresholds are tabulated in Hits_Analysis.txt
-7) The alphabetically first listed file in the target states directory will automatically populate two directories, one with images of the intial projection of the list (Images) and the other with DBSCAN resultant projection (Trimmed), for up to 250 lists that are scored as hits. 
+1) Analysis_metadata.txt contains information about the parameters and files used in the scanning.
+2) The values calculated for each input gene list are tabulated in SOM_Analysis.txt
+3) The values calculated for each list with _strucutre_ >0.075 and _quality_ >0.057 are tabulated in Structure.txt
+4) The values for list passing the above thresholds and also have _overlap_ >0.40 values with the first target gene list are tabulated in Overlap_Analysis.txt
+5) The values for lists in which the product of _strucutre_ * _quality_ * _overlap_ above the product of the thresholds are tabulated in Hits_Analysis.txt
+6) The alphabetically first listed file in the target states directory will automatically populate two directories, one with images of the intial projection of the list (Images) and the other with DBSCAN resultant projection (Trimmed), for up to 250 lists that are scored as hits. 
 
 While both the Hits_Analysis and Overlap_Analysis outputs will contain high scoring gene lists, we recommend interacting the the Structure_Analysis.txt file directly for subsequent analysis. SOM_Analysis.txt can also be used, but is often too big for easy use in excel.
+
+Scanning runs with the following command: 
+    java -jar /path/to/DBSOMA.jar /path/to/MySom.som /path/to/PerturbationGeneListsDirectory /path/to/outputDirectory /path/to/TargetStateGeneListsDirectory (optional){DBSCAN radius} {DBSCAN minPts}
 
 ## Viewing
 The Viewer, contained in the exectuable jar file "SOMviewer.jar" will first open a file explorer which users can select a trained SOM.
@@ -182,7 +182,7 @@ Scripts:
 This Repository also contains R scripts used to generate GoTerm analysis plots 
 Script:
 
-This Repository contains Bash scripts which serve as exmapls for how to run the various jar files.
+This Repository contains Bash scripts which serve as examples for how to run the various jar files.
 
 ## License
 MIT License
