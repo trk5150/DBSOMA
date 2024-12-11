@@ -92,7 +92,7 @@ public class FilesWriter
 		String filePrefix;
 		if(trimmed && subCell)
 			filePrefix = outPrefix + "\\Training_set_TRIMMED_SUBCELL";
-		filePrefix = outPrefix + "\\Training_set";
+		filePrefix = outPrefix + "\\Liver_set";
 		if(trimmed)
 			filePrefix+="_TRIMMED";
 		if(subCell)

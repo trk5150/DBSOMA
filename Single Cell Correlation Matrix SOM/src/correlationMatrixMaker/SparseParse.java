@@ -55,11 +55,11 @@ public class SparseParse
 		
 	    try 
 	    {
-//	    	if(line.contains("%"))
+	    	line=br.readLine();
+	    	while(line.contains("%"))
 	    		line=br.readLine();
 
 	    	//reading in sizes
-	    	line = br.readLine();
 	    	String[] lines = line.split(" ");
 	    	genes = Integer.parseInt(lines[0]);
 	    	cells = Integer.parseInt(lines[1]);

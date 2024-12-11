@@ -35,7 +35,7 @@ public class InputMatrixReader
 		}
 	    try 
 	    {
-	    	//first line is QC
+	    	//first line is metadata, skip before proceeding to parsing the matrix
 	    	matrixQC = br.readLine();
 	    	
 	    	//Second line is the initial reading of data, needs to be handled differently

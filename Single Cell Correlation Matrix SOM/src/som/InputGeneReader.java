@@ -20,6 +20,7 @@ public class InputGeneReader
 	
 	public String[] readGenes(int geneNum)
 	{
+		//file contains a line split list of genes with no header information, so no need to skip any initial lines
 		String[] s = new String[geneNum];
 		
 		BufferedReader br = null;

@@ -338,6 +338,9 @@ public class SingleCellParserTSV
 	
 	public static void main(String [] s)
 	{
+		File f = new File(s[0]);
+		String fileLoc = f.getParent();
+		System.out.println(fileLoc);
 		SingleCellParserTSV parse = new SingleCellParserTSV(s[0]);
 		//System.out.println(parse.pairwiseCorrelation.length + " cells, " + parse.pairwiseCorrelation[0].length+ " genes");
 		
@@ -347,7 +350,7 @@ public class SingleCellParserTSV
 		System.out.println("finished Correlation");
 		System.out.println("printing correltation matrix and gene list files");	
 		FilesWriter w = new FilesWriter();
-		w.writeFiles(correlationMatrix,parse.geneList,parse.fileLoc,parse.cells,parse.geneNum,s[1], parse.trimLowCount, parse.subCellPop);
+		w.writeFiles(correlationMatrix,parse.geneList,parse.fileLoc,parse.cells,parse.geneNum,fileLoc, parse.trimLowCount, parse.subCellPop);
 		
 //		String[] ofInterest = new String[7]; 
 //		ofInterest[0] = "c1orf127";
